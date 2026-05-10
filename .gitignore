@@ -1,0 +1,47 @@
+# Visual Studio / C# — GestionBiblioteca
+
+# Carpetas de compilación
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code
+.vscode/
+
+# Paquetes NuGet
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+artifacts/
+
+# Archivos de build temporales
+*.cache
+*.log
+*.tmp
+*.pdb
+*.tlb
+*.tli
+*.tlh
+
+# macOS
+.DS_Store
+.AppleDouble
+__MACOSX/
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# SQL Server LocalDB
+*.mdf
+*.ldf
+*.ndf
+Documentacion/
