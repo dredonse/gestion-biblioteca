@@ -1,4 +1,4 @@
-# 📚 Sistema de Gestión de Biblioteca Personal - cambio
+# 📚 Sistema de Gestión de Biblioteca Personal
 
 Aplicación de escritorio Windows para gestionar una colección de libros personal y llevar un seguimiento detallado de las lecturas.
 
