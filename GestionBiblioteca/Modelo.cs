@@ -133,7 +133,7 @@ namespace GestionBiblioteca.Modelos
                 if (ValidacionHelper.ValidarCampoTexto(value, out error))
                     editorial = value;
                 else
-                    throw new Exception("ErrorEditorial"); // Usando clave simple
+                    throw new Exception("ErrorEditorial");
             }
         }
 
@@ -198,7 +198,7 @@ namespace GestionBiblioteca.Modelos
     }
 
 
-    // CLASE LECTURASDTO (campos y anotaciones)
+    // CLASE LecturasDTO (campos y anotaciones)
     [Table("Lecturas")]
     public partial class LecturasDTO
     {
@@ -280,23 +280,6 @@ namespace GestionBiblioteca.Modelos
 
         // Propiedad de Navegación
         public virtual LibroDTO Libro
-        {
-            get; set;
-        }
-    }
-
-    /// DTO auxiliar utilizado para transferir un libro y su lectura asociada
-    /// desde el DAO al formulario de edición (BookForm).
-    public class LibroCompletoDTO
-    {
-        // Contiene todos los datos del libro
-        public LibroDTO Libro
-        {
-            get; set;
-        }
-
-        // Contiene todos los datos de la lectura asociada
-        public LecturasDTO Lectura
         {
             get; set;
         }

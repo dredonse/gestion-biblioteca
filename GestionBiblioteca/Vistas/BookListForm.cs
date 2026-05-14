@@ -1,4 +1,5 @@
 ﻿using GestionBiblioteca.Controladores;
+using GestionBiblioteca.DTOs;
 using GestionBiblioteca.Modelos;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace GestionBiblioteca.Vistas
 {
     public partial class BookListForm: Form
     {
-        private readonly BookListController _controlador = new BookListController();
+        private readonly BookListController controlador = new BookListController();
 
         private BookForm bookForm;
 
@@ -46,7 +47,7 @@ namespace GestionBiblioteca.Vistas
             };
             cbEstado.Items.AddRange(estadosLectura);
 
-            cbEstado.SelectedItem = "Pendiente";
+            // cbEstado.SelectedItem = "Pendiente";
         }
 
         private void btnAnadirNuevoLibro_Click(object sender, EventArgs e)
@@ -71,7 +72,7 @@ namespace GestionBiblioteca.Vistas
             try
             {
                 // Obtener los datos completos del libro del controlador
-                LibroCompletoDTO datosCompletos = _controlador.ObtenerDatosLibroParaEdicion(idLibroAEditar);
+                LibroCompletoDTO datosCompletos = controlador.ObtenerDatosLibroParaEdicion(idLibroAEditar);
 
                 if (datosCompletos != null)
                 {
@@ -131,7 +132,7 @@ namespace GestionBiblioteca.Vistas
                 try
                 {
                     // 4. Llamar al Controlador para ejecutar la eliminación
-                    bool exito = _controlador.BorrarLibro(idLibroABorrar);
+                    bool exito = controlador.BorrarLibro(idLibroABorrar);
 
                     if (exito)
                     {
@@ -178,8 +179,8 @@ namespace GestionBiblioteca.Vistas
             {
                 List<LibroVistaDTO> datosLibros;
 
-                // 💡 LLAMADA DIRECTA: Siempre llamamos al método filtrado con los parámetros (que serán nulls o vacíos en la carga inicial)
-                datosLibros = _controlador.ObtenerLibrosFiltrados(autor, editorial, estado, genero);
+                // LLAMADA DIRECTA: Siempre llamamos al método filtrado con los parámetros (que serán nulls o vacíos en la carga inicial)
+                datosLibros = controlador.ObtenerLibrosFiltrados(autor, editorial, estado, genero);
 
                 dgvBiblioteca.DataSource = null;
                 dgvBiblioteca.DataSource = datosLibros;
@@ -197,14 +198,14 @@ namespace GestionBiblioteca.Vistas
 
         private void AjustarColumnasDataGridView()
         {
-            // ⚠️ OCULTAR COLUMNA IDLIBRO
+            // OCULTAR COLUMNA IDLIBRO
             if (dgvBiblioteca.Columns.Contains("IdLibro"))
             {
-                // 1. Ocultar la columna IdLibro, ya que es un campo de control interno
+                // Ocultar la columna IdLibro, ya que es un campo de control interno
                 dgvBiblioteca.Columns["IdLibro"].Visible = false;
             }
 
-            // 2. Ocultar la columna Comentario (que se muestra en el TextBox)
+            // Ocultar la columna Comentario (que se muestra en el TextBox)
             if (dgvBiblioteca.Columns.Contains("Comentario"))
             {
                 dgvBiblioteca.Columns["Comentario"].Visible = false;

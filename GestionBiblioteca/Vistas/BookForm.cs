@@ -133,12 +133,12 @@ namespace GestionBiblioteca.Vistas
         /// <summary>
         /// Mensajes para las claves que lanzan los setters de <see cref="LibroDTO"/> en Modelo.cs.
         /// </summary>
-        private static string ObtenerMensajeErrorValidacion(string claveCruda)
+        private static string ObtenerMensajeErrorValidacion(string error)
         {
-            if (string.IsNullOrWhiteSpace(claveCruda))
+            if (string.IsNullOrWhiteSpace(error))
                 return null;
 
-            switch (claveCruda.Trim())
+            switch (error.Trim())
             {
                 case "ErrorTitulo":
                     return "El título es obligatorio y no puede estar vacío.";

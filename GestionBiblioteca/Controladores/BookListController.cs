@@ -1,5 +1,4 @@
-﻿// BookListController.cs (En GestionBiblioteca.Controladores)
-
+﻿using GestionBiblioteca.DTOs;
 using GestionBiblioteca.Modelos;
 using System.Collections.Generic;
 

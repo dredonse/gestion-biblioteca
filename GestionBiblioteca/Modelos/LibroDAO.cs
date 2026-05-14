@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using GestionBiblioteca.DTOs;
 
 namespace GestionBiblioteca.Modelos
 {
@@ -100,18 +101,29 @@ namespace GestionBiblioteca.Modelos
         {
             using (var contexto = new GestionBiblioteca.Modelo())
             {
-                // Marcar Libro como Modificado
-                contexto.Libros.Attach(libro);
-                contexto.Entry(libro).State = EntityState.Modified;
+                // 1. Recuperar el libro existente de la BD (EF guarda el estado original)
+                var libroExistente = contexto.Libros.Find(libro.IdLibro);
+                if (libroExistente == null) return false;
 
-                // Marcar Lectura como Modificada
-                contexto.Lecturas.Attach(lectura);
-                contexto.Entry(lectura).State = EntityState.Modified;
+                // 2. Aplicar solo los campos que el usuario puede modificar
+                libroExistente.Titulo = libro.Titulo;
+                libroExistente.Autor = libro.Autor;
+                libroExistente.Editorial = libro.Editorial;
+                libroExistente.Genero = libro.Genero;
+                libroExistente.Idioma = libro.Idioma;
+                libroExistente.FechaPublicacion = libro.FechaPublicacion;
 
-                // Guardar todos los cambios
+                // 3. Recuperar la lectura existente de la BD
+                var lecturaExistente = contexto.Lecturas.Find(lectura.IdLectura);
+                if (lecturaExistente == null) return false;
+
+                // 4. Aplicar solo los campos que el usuario puede modificar
+                lecturaExistente.Estado = lectura.Estado;
+                lecturaExistente.Comentario = lectura.Comentario;
+                lecturaExistente.NumeroLectura = lectura.NumeroLectura;
+
+                // 5. EF compara con el estado original y genera solo los UPDATE necesarios
                 int filasAfectadas = contexto.SaveChanges();
-
-                // Si al menos una entidad fue modificada, asumimos éxito (deberían ser dos)
                 return filasAfectadas > 0;
             }
         }
@@ -129,7 +141,7 @@ namespace GestionBiblioteca.Modelos
                                     lec
                                 });
 
-                // 💡 LÓGICA DE FILTRADO UNIFICADA: Ignora si el parámetro es null o una cadena vacía
+                // LÓGICA DE FILTRADO UNIFICADA: Ignora si el parámetro es null o una cadena vacía
                 if (!string.IsNullOrWhiteSpace(autor))
                 {
                     consulta = consulta.Where(x => x.l.Autor.Contains(autor));
