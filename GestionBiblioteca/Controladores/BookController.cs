@@ -9,7 +9,7 @@ namespace GestionBiblioteca.Controladores
     {
         private readonly LibroDAO libroDAO = new LibroDAO();
 
-        // Método USADO PARA MODIFICACIÓN (llama al ActualizarLibroCompleto del DAO)        
+        // Método USADO PARA MODIFICACIÓN (llama al ActualizarLibro del DAO)        
         // Actualiza un libro y su lectura asociada.        
         public bool ActualizarLibro(LibroDTO libro, LecturasDTO lectura)
         {
