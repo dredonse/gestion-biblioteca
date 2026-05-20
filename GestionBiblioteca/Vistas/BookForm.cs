@@ -173,5 +173,10 @@ namespace GestionBiblioteca.Vistas
         {
             MessageBox.Show(texto, "Mensaje de la Aplicación", MessageBoxButtons.OK, icon);
         }
+
+        private void BookForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

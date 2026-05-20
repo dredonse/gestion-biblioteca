@@ -62,7 +62,6 @@
     <Compile Include="Controladores\BookController.cs" />
     <Compile Include="Controladores\BookListController.cs" />
     <Compile Include="Modelo.cs" />
-    <Compile Include="Modelos\LecturaDAO.cs" />
     <Compile Include="Modelos\LibroDAO.cs" />
     <Compile Include="DTOs\LibroCompletoDTO.cs" />
     <Compile Include="DTOs\LibroVistaDTO.cs" />

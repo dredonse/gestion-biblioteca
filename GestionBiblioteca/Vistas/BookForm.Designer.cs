@@ -303,6 +303,7 @@ namespace GestionBiblioteca.Vistas
             this.Name = "BookForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BookForm";
+            this.Load += new System.EventHandler(this.BookForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudLecturas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
