@@ -5,6 +5,9 @@ using GestionBiblioteca.Controladores;
 
 namespace GestionBiblioteca.Vistas
 {
+    // Autor: David Redondo Serrano
+    // Fecha: Junio 2026
+    // Descripción: Formulario de alta y edición de un libro y su lectura.
     public partial class BookForm : Form
     {
         // Campos privados para mantener la referencia a los objetos DTO originales.
@@ -129,10 +132,8 @@ namespace GestionBiblioteca.Vistas
                 MessageBox.Show(mensajeUsuario, "Error de Guardado", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        /// <summary>
-        /// Mensajes para las claves que lanzan los setters de <see cref="LibroDTO"/> en Modelo.cs.
-        /// </summary>
+       
+        /// Mensajes para las claves que lanzan los setters de LibroDTO
         private static string ObtenerMensajeErrorValidacion(string error)
         {
             if (string.IsNullOrWhiteSpace(error))
@@ -172,11 +173,6 @@ namespace GestionBiblioteca.Vistas
         private void mostrarMensaje(string texto, MessageBoxIcon icon = MessageBoxIcon.Error)
         {
             MessageBox.Show(texto, "Mensaje de la Aplicación", MessageBoxButtons.OK, icon);
-        }
-
-        private void BookForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

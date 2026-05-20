@@ -2,6 +2,9 @@
 
 namespace GestionBiblioteca.Controladores
 {
+    // Autor: David Redondo Serrano
+    // Fecha: Junio 2026
+    // Descripción: Controlador de altas y modificaciones de libros y lecturas.
     public class BookController
     {
         private readonly LibroDAO libroDAO = new LibroDAO();

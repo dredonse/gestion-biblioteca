@@ -6,6 +6,9 @@ using GestionBiblioteca.DTOs;
 
 namespace GestionBiblioteca.Modelos
 {
+    // Autor: David Redondo Serrano
+    // Fecha: Junio 2026
+    // Descripción: Acceso a datos y operaciones CRUD de libros en la base de datos.
     public class LibroDAO
     {
         // Usaremos un campo privado para el contexto opcional
@@ -25,8 +28,6 @@ namespace GestionBiblioteca.Modelos
         }
 
         /// Elimina un libro y todas sus lecturas asociadas de forma explícita (simulando cascada).
-        /// <param name="idLibro">El ID del libro a eliminar.</param>
-        /// <returns>True si la operación fue exitosa.</returns>
         public bool EliminarLibro(int idLibro)
         {
             using (var contexto = new GestionBiblioteca.Modelo())

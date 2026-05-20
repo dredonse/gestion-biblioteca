@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace GestionBiblioteca.Vistas
 {
+    // Autor: David Redondo Serrano
+    // Fecha: Junio 2026
+    // Descripción: Formulario principal de listado y gestión del catálogo de libros.
     public partial class BookListForm: Form
     {
         private readonly BookListController controlador = new BookListController();

@@ -2,6 +2,9 @@ using System;
 
 namespace GestionBiblioteca.DTOs
 {
+    // Autor: David Redondo Serrano
+    // Fecha: Junio 2026
+    // Descripción: DTO con datos de libro y lectura para el listado en DataGridView.
     // Esta clase representa la fila completa que se mostrará y gestionará en el DataGridView
     public class LibroVistaDTO
     {        

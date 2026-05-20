@@ -12,6 +12,9 @@ namespace GestionBiblioteca
 {
     using GestionBiblioteca.Modelos; // Importamos el namespace de las entidades
 
+    // Autor: David Redondo Serrano
+    // Fecha: Junio 2026
+    // Descripción: Contexto Entity Framework y acceso a la base de datos de libros y lecturas.
     public class Modelo : DbContext
     {
         public Modelo()
