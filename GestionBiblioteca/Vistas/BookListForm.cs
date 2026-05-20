@@ -53,7 +53,8 @@ namespace GestionBiblioteca.Vistas
         private void btnAnadirNuevoLibro_Click(object sender, EventArgs e)
         {
             bookForm = new BookForm();
-            bookForm.ShowDialog();
+            if (bookForm.ShowDialog() == DialogResult.OK)
+                CargarDatosEnDataGridView();
         }
 
         private void btnModificarLibro_Click(object sender, EventArgs e)

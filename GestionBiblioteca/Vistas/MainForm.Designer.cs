@@ -30,14 +30,13 @@
         {
             this.btnVerBiblioteca = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnAnadirNuevoLibro = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnVerBiblioteca
             // 
             this.btnVerBiblioteca.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnVerBiblioteca.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVerBiblioteca.Location = new System.Drawing.Point(244, 425);
+            this.btnVerBiblioteca.Location = new System.Drawing.Point(461, 413);
             this.btnVerBiblioteca.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnVerBiblioteca.Name = "btnVerBiblioteca";
             this.btnVerBiblioteca.Size = new System.Drawing.Size(300, 77);
@@ -60,26 +59,12 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Mi Biblioteca Personal";
             // 
-            // btnAnadirNuevoLibro
-            // 
-            this.btnAnadirNuevoLibro.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAnadirNuevoLibro.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAnadirNuevoLibro.Location = new System.Drawing.Point(612, 425);
-            this.btnAnadirNuevoLibro.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAnadirNuevoLibro.Name = "btnAnadirNuevoLibro";
-            this.btnAnadirNuevoLibro.Size = new System.Drawing.Size(300, 77);
-            this.btnAnadirNuevoLibro.TabIndex = 3;
-            this.btnAnadirNuevoLibro.Text = "Añadir nuevo libro";
-            this.btnAnadirNuevoLibro.UseVisualStyleBackColor = true;
-            this.btnAnadirNuevoLibro.Click += new System.EventHandler(this.btnAnadirNuevoLibro_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.OrangeRed;
             this.ClientSize = new System.Drawing.Size(1200, 692);
-            this.Controls.Add(this.btnAnadirNuevoLibro);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnVerBiblioteca);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -97,7 +82,6 @@
 
         private System.Windows.Forms.Button btnVerBiblioteca;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnAnadirNuevoLibro;
     }
 }
 

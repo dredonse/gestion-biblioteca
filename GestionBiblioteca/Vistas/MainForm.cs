@@ -5,7 +5,6 @@ namespace GestionBiblioteca.Vistas
     public partial class MainForm : Form
     {
         private BookListForm biblioteca;
-        private BookForm formularioLibro;
 
         public MainForm()
         {
@@ -16,16 +15,8 @@ namespace GestionBiblioteca.Vistas
         {
             this.Hide();
             biblioteca = new BookListForm();
-            biblioteca.ShowDialog();
-            this.Close();
+            biblioteca.Show();
         }
 
-        private void btnAnadirNuevoLibro_Click(object sender, System.EventArgs e)
-        {
-            this.Hide();
-            formularioLibro = new BookForm();
-            formularioLibro.ShowDialog();
-            this.Close();
-        }
     }
 }
