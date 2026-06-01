@@ -6,7 +6,7 @@ using GestionBiblioteca.Controladores;
 namespace GestionBiblioteca.Vistas
 {
     // Autor: David Redondo Serrano
-    // Fecha: Junio 2026
+    // Fecha: Mayo 2026
     // Descripción: Formulario de alta y edición de un libro y su lectura.
     public partial class BookForm : Form
     {
@@ -78,7 +78,7 @@ namespace GestionBiblioteca.Vistas
                     lecturaActual = new LecturasDTO();
                 }
 
-                // Recoger los datos de los controles y ASIGNARLOS A LOS OBJETOS DTO
+                // Recoger los datos de los controles y asignarlos a los objetos DTO
                 libroActual.Titulo = this.tbxTitulo.Text.Trim();
                 libroActual.Autor = this.tbxAutor.Text.Trim();
                 libroActual.Editorial = this.tbxEditorial.Text.Trim();

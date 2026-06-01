@@ -3,13 +3,12 @@
 namespace GestionBiblioteca.Controladores
 {
     // Autor: David Redondo Serrano
-    // Fecha: Junio 2026
+    // Fecha: Mayo 2026
     // Descripción: Controlador de altas y modificaciones de libros y lecturas.
     public class BookController
     {
         private readonly LibroDAO libroDAO = new LibroDAO();
 
-        // Método USADO PARA MODIFICACIÓN (llama al ActualizarLibro del DAO)        
         // Actualiza un libro y su lectura asociada.        
         public bool ActualizarLibro(LibroDTO libro, LecturasDTO lectura)
         {
@@ -17,7 +16,6 @@ namespace GestionBiblioteca.Controladores
             return libroDAO.ActualizarLibro(libro, lectura);
         }
 
-        // Método USADO PARA INSERCIÓN (necesario para el constructor por defecto del BookForm)      
         // Inserta un nuevo libro y devuelve su ID generado.        
         public int InsertarLibro(LibroDTO libro, LecturasDTO lectura)
         {

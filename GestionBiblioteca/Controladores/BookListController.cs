@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace GestionBiblioteca.Controladores
 {
     // Autor: David Redondo Serrano
-    // Fecha: Junio 2026
+    // Fecha: Mayo 2026
     // Descripción: Controlador del listado, filtros, consulta y borrado de libros.
     public class BookListController
     {

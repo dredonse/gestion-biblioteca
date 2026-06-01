@@ -3,7 +3,7 @@ using GestionBiblioteca.Modelos;
 namespace GestionBiblioteca.DTOs
 {
     // Autor: David Redondo Serrano
-    // Fecha: Junio 2026
+    // Fecha: Mayo 2026
     // Descripción: DTO que agrupa libro y lectura para el formulario de edición.
     /// DTO auxiliar utilizado para transferir un libro y su lectura asociada
     /// desde el DAO al formulario de edición (BookForm).

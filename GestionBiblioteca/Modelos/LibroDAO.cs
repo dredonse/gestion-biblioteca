@@ -7,7 +7,7 @@ using GestionBiblioteca.DTOs;
 namespace GestionBiblioteca.Modelos
 {
     // Autor: David Redondo Serrano
-    // Fecha: Junio 2026
+    // Fecha: Mayo 2026
     // Descripción: Acceso a datos y operaciones CRUD de libros en la base de datos.
     public class LibroDAO
     {
@@ -32,25 +32,25 @@ namespace GestionBiblioteca.Modelos
         {
             using (var contexto = new GestionBiblioteca.Modelo())
             {
-                // 1. Encontrar las Lecturas asociadas (es más eficiente eliminarlas primero)
+                // Encontrar las Lecturas asociadas (es más eficiente eliminarlas primero)
                 // Se asume que LecturasDTO tiene un campo IdLibro
                 var lecturas = contexto.Lecturas.Where(l => l.IdLibro == idLibro).ToList();
 
-                // 2. Eliminar el rango de Lecturas
+                // Eliminar el rango de Lecturas
                 if (lecturas.Any())
                 {
                     contexto.Lecturas.RemoveRange(lecturas);
                 }
 
-                // 3. Encontrar el Libro a eliminar
+                // Encontrar el Libro a eliminar
                 var libro = contexto.Libros.Find(idLibro);
 
                 if (libro != null)
                 {
-                    // 4. Eliminar el Libro
+                    // Eliminar el Libro
                     contexto.Libros.Remove(libro);
 
-                    // 5. Guardar los cambios. La operación será atómica (todo o nada).
+                    // Guardar los cambios. La operación será atómica (todo o nada).
                     contexto.SaveChanges();
                     return true;
                 }
@@ -102,11 +102,11 @@ namespace GestionBiblioteca.Modelos
         {
             using (var contexto = new GestionBiblioteca.Modelo())
             {
-                // 1. Recuperar el libro existente de la BD (EF guarda el estado original)
+                // Recuperar el libro existente de la BD (EF guarda el estado original)
                 var libroExistente = contexto.Libros.Find(libro.IdLibro);
                 if (libroExistente == null) return false;
 
-                // 2. Aplicar solo los campos que el usuario puede modificar
+                // Aplicar solo los campos que el usuario puede modificar
                 libroExistente.Titulo = libro.Titulo;
                 libroExistente.Autor = libro.Autor;
                 libroExistente.Editorial = libro.Editorial;
@@ -114,16 +114,16 @@ namespace GestionBiblioteca.Modelos
                 libroExistente.Idioma = libro.Idioma;
                 libroExistente.FechaPublicacion = libro.FechaPublicacion;
 
-                // 3. Recuperar la lectura existente de la BD
+                // Recuperar la lectura existente de la BD
                 var lecturaExistente = contexto.Lecturas.Find(lectura.IdLectura);
                 if (lecturaExistente == null) return false;
 
-                // 4. Aplicar solo los campos que el usuario puede modificar
+                // Aplicar solo los campos que el usuario puede modificar
                 lecturaExistente.Estado = lectura.Estado;
                 lecturaExistente.Comentario = lectura.Comentario;
                 lecturaExistente.NumeroLectura = lectura.NumeroLectura;
 
-                // 5. EF compara con el estado original y genera solo los UPDATE necesarios
+                // EF compara con el estado original y genera solo los UPDATE necesarios
                 int filasAfectadas = contexto.SaveChanges();
                 return filasAfectadas > 0;
             }
@@ -134,6 +134,7 @@ namespace GestionBiblioteca.Modelos
         {
             using (var contexto = new GestionBiblioteca.Modelo())
             {
+                // Construcción diferida: EF aún no ejecuta SQL
                 var consulta = (from l in contexto.Libros
                                 join lec in contexto.Lecturas on l.IdLibro equals lec.IdLibro
                                 select new
@@ -142,7 +143,7 @@ namespace GestionBiblioteca.Modelos
                                     lec
                                 });
 
-                // LÓGICA DE FILTRADO UNIFICADA: Ignora si el parámetro es null o una cadena vacía
+                // Filtros opcionales: solo se aplican si el parámetro tiene valor
                 if (!string.IsNullOrWhiteSpace(autor))
                 {
                     consulta = consulta.Where(x => x.l.Autor.Contains(autor));
@@ -160,10 +161,10 @@ namespace GestionBiblioteca.Modelos
                     consulta = consulta.Where(x => x.lec.Estado == estado);
                 }
 
-                // Proyectar el resultado final al LibroVistaDTO
+                // Proyección al DTO de vista + ejecución real de la consulta SQL
                 var resultado = consulta.Select(x => new LibroVistaDTO
                 {
-                    // ... (proyección de todos los campos) ...
+                    // proyección de todos los campos
                     IdLibro = x.l.IdLibro,
                     Título = x.l.Titulo,
                     Autor = x.l.Autor,
@@ -174,7 +175,7 @@ namespace GestionBiblioteca.Modelos
                     EstadoActual = x.lec.Estado,
                     Número_Lectura = x.lec.NumeroLectura,
                     Comentario = x.lec.Comentario
-                }).ToList();
+                }).ToList(); // Aquí EF genera y ejecuta el SQL final
 
                 return resultado;
             }

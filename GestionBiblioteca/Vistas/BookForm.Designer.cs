@@ -220,30 +220,35 @@ namespace GestionBiblioteca.Vistas
             // btnVolverABiblioteca
             // 
             this.btnVolverABiblioteca.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVolverABiblioteca.BackColor = System.Drawing.Color.FromArgb(70, 130, 180);
+            this.btnVolverABiblioteca.ForeColor = System.Drawing.Color.White;
             this.btnVolverABiblioteca.Location = new System.Drawing.Point(624, 588);
             this.btnVolverABiblioteca.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnVolverABiblioteca.Name = "btnVolverABiblioteca";
             this.btnVolverABiblioteca.Size = new System.Drawing.Size(246, 46);
             this.btnVolverABiblioteca.TabIndex = 11;
             this.btnVolverABiblioteca.Text = "Volver a Biblioteca";
-            this.btnVolverABiblioteca.UseVisualStyleBackColor = true;
+            this.btnVolverABiblioteca.UseVisualStyleBackColor = false;
             this.btnVolverABiblioteca.Click += new System.EventHandler(this.btnVolverABiblioteca_Click);
             // 
             // btnGuardarLibro
             // 
             this.btnGuardarLibro.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardarLibro.BackColor = System.Drawing.Color.FromArgb(70, 130, 180);
+            this.btnGuardarLibro.ForeColor = System.Drawing.Color.White;
             this.btnGuardarLibro.Location = new System.Drawing.Point(333, 588);
             this.btnGuardarLibro.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnGuardarLibro.Name = "btnGuardarLibro";
             this.btnGuardarLibro.Size = new System.Drawing.Size(246, 46);
             this.btnGuardarLibro.TabIndex = 10;
             this.btnGuardarLibro.Text = "Guardar Libro";
-            this.btnGuardarLibro.UseVisualStyleBackColor = true;
+            this.btnGuardarLibro.UseVisualStyleBackColor = false;
             this.btnGuardarLibro.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // cbEstado
             // 
             this.cbEstado.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbEstado.FormattingEnabled = true;
             this.cbEstado.Location = new System.Drawing.Point(372, 357);
             this.cbEstado.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -254,6 +259,7 @@ namespace GestionBiblioteca.Vistas
             // cbGenero
             // 
             this.cbGenero.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbGenero.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbGenero.FormattingEnabled = true;
             this.cbGenero.Location = new System.Drawing.Point(48, 357);
             this.cbGenero.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -274,7 +280,7 @@ namespace GestionBiblioteca.Vistas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.OrangeRed;
+            this.BackColor = System.Drawing.Color.FromArgb(30, 50, 80);
             this.ClientSize = new System.Drawing.Size(1200, 692);
             this.Controls.Add(this.nudLecturas);
             this.Controls.Add(this.cbGenero);

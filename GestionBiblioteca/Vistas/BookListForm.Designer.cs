@@ -30,6 +30,7 @@ namespace GestionBiblioteca.Vistas
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cbEstado = new System.Windows.Forms.ComboBox();
             this.btnAnadirNuevoLibro = new System.Windows.Forms.Button();
             this.tbxResena = new System.Windows.Forms.TextBox();
@@ -42,6 +43,7 @@ namespace GestionBiblioteca.Vistas
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnBuscarLibro = new System.Windows.Forms.Button();
             this.btnModificarLibro = new System.Windows.Forms.Button();
             this.btnBorrarLibro = new System.Windows.Forms.Button();
@@ -52,6 +54,7 @@ namespace GestionBiblioteca.Vistas
             // 
             // cbEstado
             // 
+            this.cbEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbEstado.FormattingEnabled = true;
             this.cbEstado.Location = new System.Drawing.Point(126, 133);
             this.cbEstado.Name = "cbEstado";
@@ -60,23 +63,25 @@ namespace GestionBiblioteca.Vistas
             // 
             // btnAnadirNuevoLibro
             // 
+            this.btnAnadirNuevoLibro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
             this.btnAnadirNuevoLibro.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAnadirNuevoLibro.Location = new System.Drawing.Point(647, 68);
+            this.btnAnadirNuevoLibro.ForeColor = System.Drawing.Color.White;
+            this.btnAnadirNuevoLibro.Location = new System.Drawing.Point(782, 70);
             this.btnAnadirNuevoLibro.Name = "btnAnadirNuevoLibro";
             this.btnAnadirNuevoLibro.Size = new System.Drawing.Size(130, 30);
             this.btnAnadirNuevoLibro.TabIndex = 25;
             this.btnAnadirNuevoLibro.Text = "Insertar Libro";
-            this.btnAnadirNuevoLibro.UseVisualStyleBackColor = true;
+            this.btnAnadirNuevoLibro.UseVisualStyleBackColor = false;
             this.btnAnadirNuevoLibro.Click += new System.EventHandler(this.btnAnadirNuevoLibro_Click);
             // 
             // tbxResena
             // 
-            this.tbxResena.Location = new System.Drawing.Point(382, 52);
+            this.tbxResena.Location = new System.Drawing.Point(366, 53);
             this.tbxResena.Multiline = true;
             this.tbxResena.Name = "tbxResena";
             this.tbxResena.ReadOnly = true;
             this.tbxResena.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbxResena.Size = new System.Drawing.Size(232, 192);
+            this.tbxResena.Size = new System.Drawing.Size(380, 206);
             this.tbxResena.TabIndex = 23;
             // 
             // label9
@@ -84,7 +89,7 @@ namespace GestionBiblioteca.Vistas
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(379, 23);
+            this.label9.Location = new System.Drawing.Point(363, 23);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(81, 16);
             this.label9.TabIndex = 16;
@@ -94,18 +99,19 @@ namespace GestionBiblioteca.Vistas
             // 
             this.tbxEditorial.Location = new System.Drawing.Point(126, 93);
             this.tbxEditorial.Name = "tbxEditorial";
-            this.tbxEditorial.Size = new System.Drawing.Size(171, 20);
+            this.tbxEditorial.Size = new System.Drawing.Size(171, 26);
             this.tbxEditorial.TabIndex = 11;
             // 
             // tbxAutor
             // 
             this.tbxAutor.Location = new System.Drawing.Point(126, 53);
             this.tbxAutor.Name = "tbxAutor";
-            this.tbxAutor.Size = new System.Drawing.Size(171, 20);
+            this.tbxAutor.Size = new System.Drawing.Size(171, 26);
             this.tbxAutor.TabIndex = 13;
             // 
             // cbGenero
             // 
+            this.cbGenero.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbGenero.FormattingEnabled = true;
             this.cbGenero.Location = new System.Drawing.Point(126, 174);
             this.cbGenero.Name = "cbGenero";
@@ -158,58 +164,86 @@ namespace GestionBiblioteca.Vistas
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.btnBuscarLibro);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.Menu;
             this.groupBox1.Location = new System.Drawing.Point(34, 23);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(307, 220);
+            this.groupBox1.Size = new System.Drawing.Size(304, 236);
             this.groupBox1.TabIndex = 28;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Búsqueda";
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
+            this.button1.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(163, 190);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 30);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "Limpiar";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.btnLimpiarFiltros_Click);
+            // 
             // btnBuscarLibro
             // 
+            this.btnBuscarLibro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
             this.btnBuscarLibro.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscarLibro.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.btnBuscarLibro.Location = new System.Drawing.Point(113, 183);
+            this.btnBuscarLibro.ForeColor = System.Drawing.Color.White;
+            this.btnBuscarLibro.Location = new System.Drawing.Point(43, 190);
             this.btnBuscarLibro.Name = "btnBuscarLibro";
             this.btnBuscarLibro.Size = new System.Drawing.Size(100, 30);
             this.btnBuscarLibro.TabIndex = 25;
             this.btnBuscarLibro.Text = "Buscar";
-            this.btnBuscarLibro.UseVisualStyleBackColor = true;
+            this.btnBuscarLibro.UseVisualStyleBackColor = false;
             this.btnBuscarLibro.Click += new System.EventHandler(this.btnBuscarLibro_Click);
             // 
             // btnModificarLibro
             // 
+            this.btnModificarLibro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
             this.btnModificarLibro.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnModificarLibro.Location = new System.Drawing.Point(647, 122);
+            this.btnModificarLibro.ForeColor = System.Drawing.Color.White;
+            this.btnModificarLibro.Location = new System.Drawing.Point(782, 124);
             this.btnModificarLibro.Name = "btnModificarLibro";
             this.btnModificarLibro.Size = new System.Drawing.Size(130, 30);
             this.btnModificarLibro.TabIndex = 25;
             this.btnModificarLibro.Text = "Modificar Libro";
-            this.btnModificarLibro.UseVisualStyleBackColor = true;
+            this.btnModificarLibro.UseVisualStyleBackColor = false;
             this.btnModificarLibro.Click += new System.EventHandler(this.btnModificarLibro_Click);
             // 
             // btnBorrarLibro
             // 
+            this.btnBorrarLibro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
             this.btnBorrarLibro.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBorrarLibro.Location = new System.Drawing.Point(647, 174);
+            this.btnBorrarLibro.ForeColor = System.Drawing.Color.White;
+            this.btnBorrarLibro.Location = new System.Drawing.Point(782, 176);
             this.btnBorrarLibro.Name = "btnBorrarLibro";
             this.btnBorrarLibro.Size = new System.Drawing.Size(130, 30);
             this.btnBorrarLibro.TabIndex = 25;
             this.btnBorrarLibro.Text = "Borrar Libro";
-            this.btnBorrarLibro.UseVisualStyleBackColor = true;
+            this.btnBorrarLibro.UseVisualStyleBackColor = false;
             this.btnBorrarLibro.Click += new System.EventHandler(this.btnBorrarLibro_Click);
             // 
             // dgvBiblioteca
             // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(50)))), ((int)(((byte)(80)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvBiblioteca.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvBiblioteca.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvBiblioteca.Location = new System.Drawing.Point(34, 265);
+            this.dgvBiblioteca.EnableHeadersVisualStyles = false;
+            this.dgvBiblioteca.Location = new System.Drawing.Point(34, 277);
             this.dgvBiblioteca.Name = "dgvBiblioteca";
             this.dgvBiblioteca.ReadOnly = true;
             this.dgvBiblioteca.RowHeadersWidth = 25;
             this.dgvBiblioteca.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvBiblioteca.Size = new System.Drawing.Size(743, 173);
+            this.dgvBiblioteca.Size = new System.Drawing.Size(889, 304);
             this.dgvBiblioteca.TabIndex = 29;
             this.dgvBiblioteca.SelectionChanged += new System.EventHandler(this.dgvBiblioteca_SelectionChanged);
             // 
@@ -217,8 +251,8 @@ namespace GestionBiblioteca.Vistas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.OrangeRed;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(50)))), ((int)(((byte)(80)))));
+            this.ClientSize = new System.Drawing.Size(943, 591);
             this.Controls.Add(this.dgvBiblioteca);
             this.Controls.Add(this.cbGenero);
             this.Controls.Add(this.cbEstado);
@@ -265,5 +299,6 @@ namespace GestionBiblioteca.Vistas
         private System.Windows.Forms.DataGridView dgvBiblioteca;
         public System.Windows.Forms.Button btnAnadirNuevoLibro;
         private System.Windows.Forms.TextBox tbxResena;
+        private System.Windows.Forms.Button button1;
     }
 }

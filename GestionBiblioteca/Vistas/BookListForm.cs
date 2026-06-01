@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace GestionBiblioteca.Vistas
 {
     // Autor: David Redondo Serrano
-    // Fecha: Junio 2026
+    // Fecha: Mayo 2026
     // Descripción: Formulario principal de listado y gestión del catálogo de libros.
     public partial class BookListForm: Form
     {
@@ -105,14 +105,14 @@ namespace GestionBiblioteca.Vistas
 
         private void btnBorrarLibro_Click(object sender, EventArgs e)
         {
-            // 1. Verificar si hay alguna fila seleccionada
+            // Verificar si hay alguna fila seleccionada
             if (dgvBiblioteca.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Debe seleccionar un libro para poder borrarlo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Obtener el DTO de la fila seleccionada y su ID
+            // Obtener el DTO de la fila seleccionada y su ID
             LibroVistaDTO libroSeleccionado = dgvBiblioteca.SelectedRows[0].DataBoundItem as LibroVistaDTO;
 
             // Verificación de seguridad
@@ -124,7 +124,7 @@ namespace GestionBiblioteca.Vistas
 
             int idLibroABorrar = libroSeleccionado.IdLibro;
 
-            // 3. Pedir confirmación al usuario
+            // Pedir confirmación al usuario
             DialogResult resultado = MessageBox.Show(
                 $"¿Está seguro de que desea borrar el libro '{libroSeleccionado.Título}' (ID: {idLibroABorrar})? Esta acción eliminará todas sus lecturas asociadas.",
                 "Confirmar Eliminación",
@@ -135,14 +135,14 @@ namespace GestionBiblioteca.Vistas
             {
                 try
                 {
-                    // 4. Llamar al Controlador para ejecutar la eliminación
+                    // Llamar al Controlador para ejecutar la eliminación
                     bool exito = controlador.BorrarLibro(idLibroABorrar);
 
                     if (exito)
                     {
                         MessageBox.Show("Libro eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // 5. Recargar el DataGridView para actualizar la lista
+                        // Recargar el DataGridView para actualizar la lista
                         CargarDatosEnDataGridView();
                     }
                     else
@@ -157,17 +157,24 @@ namespace GestionBiblioteca.Vistas
             }
         }
 
+        private void btnLimpiarFiltros_Click(object sender, EventArgs e)
+        {
+            tbxAutor.Text = string.Empty;
+            tbxEditorial.Text = string.Empty;
+            cbEstado.SelectedIndex = -1;
+            cbGenero.SelectedIndex = -1;
+            CargarDatosEnDataGridView();
+        }
+
         private void btnBuscarLibro_Click(object sender, EventArgs e)
         {
-            // 1. Recoger los valores de los controles
+            // Recoger los valores de los controles
             string autor = tbxAutor.Text.Trim();
             string editorial = tbxEditorial.Text.Trim();
+            string estado = cbEstado.Text;
+            string genero = cbGenero.Text;
 
-            // Para ComboBoxes, usamos .Text.Trim(), que será Empty si no hay selección
-            string estado = cbEstado.Text.Trim();
-            string genero = cbGenero.Text.Trim();
-
-            // 2. Llamar al método de carga de datos con los filtros
+            // Llamar al método de carga de datos con los filtros
             CargarDatosEnDataGridView(autor, editorial, estado, genero);
         }
 
@@ -176,14 +183,14 @@ namespace GestionBiblioteca.Vistas
             CargarDatosEnDataGridView();
         }
 
-        // Método de la Vista que llama al Controlador para obtener los datos.       
+        // Método que llama al Controlador para obtener los datos
         public void CargarDatosEnDataGridView(string autor = null, string editorial = null, string estado = null, string genero = null)
         {
             try
             {
                 List<LibroVistaDTO> datosLibros;
 
-                // LLAMADA DIRECTA: Siempre llamamos al método filtrado con los parámetros (que serán nulls o vacíos en la carga inicial)
+                // Siempre llamamos al método filtrado con los parámetros (que serán nulls o vacíos en la carga inicial)
                 datosLibros = controlador.ObtenerLibrosFiltrados(autor, editorial, estado, genero);
 
                 dgvBiblioteca.DataSource = null;
@@ -218,6 +225,15 @@ namespace GestionBiblioteca.Vistas
             if (dgvBiblioteca.Columns.Contains("Fecha_Publicación"))
             {
                 dgvBiblioteca.Columns["Fecha_Publicación"].HeaderText = "Fecha Publicación";
+                // dgvBiblioteca.Columns["Fecha_Publicación"].MinimumWidth = 120;
+            }
+            if (dgvBiblioteca.Columns.Contains("EstadoActual"))
+            {
+                dgvBiblioteca.Columns["EstadoActual"].HeaderText = "Estado Actual";
+            }
+            if (dgvBiblioteca.Columns.Contains("Número_Lectura"))
+            {
+                dgvBiblioteca.Columns["Número_Lectura"].HeaderText = "Número de Lectura";
             }
 
             dgvBiblioteca.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
@@ -227,28 +243,30 @@ namespace GestionBiblioteca.Vistas
         // Muestra el comentario de la fila seleccionada en el TextBox de Reseña.        
         private void dgvBiblioteca_SelectionChanged(object sender, System.EventArgs e)
         {
-            // 1. Verificar que hay al menos una fila seleccionada
+            // Verificar que hay al menos una fila seleccionada
             if (dgvBiblioteca.SelectedRows.Count > 0)
             {
                 // Obtener la primera fila seleccionada (solo la primera si hay múltiples)
                 DataGridViewRow filaSeleccionada = dgvBiblioteca.SelectedRows[0];
 
-                // 2. Obtener el objeto DTO subyacente que está enlazado a esa fila.
+                // Obtener el objeto DTO subyacente que está enlazado a esa fila.
                 // El DataBoundItem es un objeto de tipo LibroVistaDTO.
                 LibroVistaDTO libroSeleccionado = filaSeleccionada.DataBoundItem as LibroVistaDTO;
 
                 if (libroSeleccionado != null)
                 {
-                    // 3. Acceder a la propiedad 'Comentario' del DTO y asignarla al TextBox.
+                    // Acceder a la propiedad 'Comentario' del DTO y asignarla al TextBox.
                     // Usamos el operador de coalescencia nula (??) para asegurar que no sea null.
                     this.tbxResena.Text = libroSeleccionado.Comentario ?? string.Empty;
                 }
             }
             else
             {
-                // 4. Si no hay filas seleccionadas (o la selección se limpió), limpiar el TextBox.
+                // Si no hay filas seleccionadas (o la selección se limpió), limpiar el TextBox.
                 this.tbxResena.Text = string.Empty;
             }
         }
+
+      
     }
 }
