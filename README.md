@@ -1,179 +1,143 @@
-# 📚 Sistema de Gestión de Biblioteca Personal
+# 📚 Gestión de Biblioteca Personal
 
-Aplicación de escritorio Windows para gestionar una colección de libros personal y llevar un seguimiento detallado de las lecturas.
+Aplicación de escritorio para Windows que sirve para gestionar una biblioteca personal: un catálogo de libros con búsqueda y filtros, y el seguimiento de cada lectura (estado, número de relecturas y comentario personal).
 
-Desarrollada en **C# con Windows Forms** sobre **.NET Framework 4.7.2**, con persistencia de datos mediante **Entity Framework 6.5.1** y **SQL Server** en modalidad Code-First.
+**C# · Windows Forms · .NET Framework 4.7.2 · Entity Framework 6 (Code-First) · LINQ · SQL Server**
+
+> Proyecto final del Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Multiplataforma (DAM). Es la **versión 1** de un caso que después rehíce como aplicación web full-stack (*bibliotrack*: React, Node, Prisma y PostgreSQL).
 
 ---
 
-## ✨ Funcionalidades
+## ✨ Qué hace
 
-- **Catálogo de libros** — consulta todos tus libros en un listado con búsqueda y filtros
-- **Filtrado combinado** por autor, editorial, género y estado de lectura
-- **Alta de libros** — registra título, autor, editorial, género, idioma y fecha de publicación
-- **Seguimiento de lecturas** — guarda el estado (Pendiente / En Progreso / Completado / Abandonado), el número de lectura y comentarios personales
-- **Modificación y borrado** de libros con eliminación en cascada de sus lecturas
-- **Vista de comentarios** — al seleccionar un libro en el listado se muestra su reseña personal al instante
+- **Catálogo** en una tabla, con el comentario del libro seleccionado en un panel lateral.
+- **Filtros combinables** por autor, editorial, género y estado de lectura. Se resuelven en la base de datos, en una sola consulta.
+- **Alta** de un libro junto con su lectura inicial, guardados en una única transacción.
+- **Modificación** de libro y lectura. Solo se actualizan los campos que han cambiado.
+- **Borrado** con confirmación. Las lecturas del libro se eliminan con él.
+- **Validación** de campos obligatorios y de la fecha de publicación (no puede ser futura), con mensajes en español.
+
+---
+
+## 🚀 Probarla
+
+### Requisitos
+
+| | |
+|---|---|
+| Sistema | Windows 10 u 11 |
+| .NET Framework 4.7.2 | Ya viene instalado en Windows 10 (versión 1803 o posterior) y en Windows 11 |
+| Base de datos | **SQL Server Express LocalDB** (gratuito). Se instala con Visual Studio 2022 (carga de trabajo *Desarrollo de escritorio de .NET*) o por separado desde el [instalador de SQL Server Express](https://www.microsoft.com/es-es/sql-server/sql-server-downloads) → *Descargar medios* → *LocalDB* |
+
+### Opción A · Ejecutable (sin compilar)
+
+1. Descarga `GestionBiblioteca-v1.0.zip` desde [**Releases**](https://github.com/dredonse/gestion-biblioteca/releases/latest) y descomprímelo.
+2. Ejecuta `GestionBiblioteca.exe`. Como el ejecutable no está firmado, Windows SmartScreen puede avisar: *Más información → Ejecutar de todas formas*.
+3. Al arrancar, Entity Framework crea automáticamente la base de datos `Biblioteca` en LocalDB. La aplicación empieza vacía.
+
+### Opción B · Desde el código
+
+1. Clona el repositorio y abre `GestionBiblioteca.sln` en **Visual Studio 2022**.
+2. Pulsa **F5**. Los paquetes NuGet (Entity Framework 6.5.1) se restauran solos al compilar.
+3. Igual que en la opción A, la base de datos se crea en el primer arranque.
+
+### Cargar datos de ejemplo (opcional)
+
+Con la aplicación arrancada al menos una vez, carga 25 libros de ejemplo, cada uno con su lectura:
+
+```bat
+sqlcmd -S "(localdb)\MSSQLLocalDB" -d Biblioteca -i sql\datos-ejemplo.sql
+```
+
+También puedes abrir `sql/datos-ejemplo.sql` en Visual Studio (*Explorador de objetos de SQL Server*) o en SQL Server Management Studio y ejecutarlo contra la base de datos `Biblioteca`. El script solo inserta datos si la tabla está vacía.
+
+> **¿Usas SQL Server Express en lugar de LocalDB?** Cambia el `data source` de la cadena de conexión `Modelo` en `App.config` (o en `GestionBiblioteca.exe.config`, si usas el ejecutable) por `.\SQLEXPRESS`.
 
 ---
 
 ## 🏗️ Arquitectura
 
-El proyecto sigue el patrón **MVC (Modelo-Vista-Controlador)** con separación clara de responsabilidades:
+La aplicación sigue el patrón **MVC**: los formularios hacen de vista, los controladores coordinan y un **DAO** concentra todo el acceso a datos mediante Entity Framework.
+
+```mermaid
+flowchart LR
+    subgraph Vista["Vista (Windows Forms)"]
+        BLF[BookListForm<br/>listado y filtros]
+        BF[BookForm<br/>alta y edición]
+    end
+    subgraph Controlador
+        BLC[BookListController]
+        BC[BookController]
+    end
+    subgraph Modelo
+        DAO[LibroDAO]
+        CTX["Modelo : DbContext"]
+    end
+    DB[(SQL Server<br/>Libros · Lecturas)]
+    BLF --> BLC --> DAO
+    BF --> BC --> DAO
+    DAO --> CTX --> DB
+```
 
 ```
 GestionBiblioteca/
-├── Modelo.cs                  # DbContext (EF) + entidades LibroDTO y LecturasDTO
-├── Modelos/
-│   ├── LibroDAO.cs            # Acceso a datos: CRUD de libros y consultas LINQ
-│   ├── LecturaDAO.cs          # Acceso a datos: grabación de lecturas
-│   └── LibroVistaDTO.cs       # Proyección plana para el DataGridView
-├── Controladores/
-│   ├── BookController.cs      # Lógica de alta y modificación de libros
-│   └── BookListController.cs  # Lógica de listado, filtrado y borrado
-└── Vistas/
-    ├── MainForm              # Pantalla de inicio
-    ├── BookListForm          # Catálogo principal con búsqueda y gestión
-    └── BookForm              # Formulario de alta y edición
+├── Program.cs                  Punto de entrada: arranca con el listado
+├── App.config                  Cadena de conexión y proveedor de Entity Framework
+├── Modelo.cs                   DbContext + entidades Libro y Lectura (anotaciones Code-First)
+├── Modelos/LibroDAO.cs         Acceso a datos: consultas LINQ, alta, edición y borrado
+├── Controladores/              BookListController, BookController
+├── DTOs/                       LibroVistaDTO (fila del listado), LibroCompletoDTO (edición)
+└── Vistas/                     BookListForm, BookForm
+sql/datos-ejemplo.sql           Datos de ejemplo opcionales
 ```
 
-**Base de datos** generada automáticamente por EF Code-First al primer arranque:
+### Modelo de datos
 
+```mermaid
+erDiagram
+    Libros ||--o{ Lecturas : tiene
+    Libros {
+        int IdLibro PK
+        varchar Titulo
+        varchar Autor
+        varchar Editorial
+        varchar Genero
+        varchar Idioma
+        date FechaPublicacion
+    }
+    Lecturas {
+        int IdLectura PK
+        int IdLibro FK
+        varchar Estado
+        varchar Comentario
+        int NumeroLectura
+    }
 ```
-LIBROS    ( IdLibro PK, Título, Autor, Editorial, Género, Idioma, FechaPublicación )
-LECTURAS  ( IdLectura PK, IdLibro FK, Estado, Comentario, NúmeroLectura )
-```
+
+El esquema lo genera Entity Framework a partir de las clases (Code-First). La clave foránea se crea con borrado en cascada.
 
 ---
 
-## 🛠️ Requisitos
+## 🧠 Decisiones técnicas
 
-| Componente | Versión mínima |
-|---|---|
-| Windows | 10 (64 bits) |
-| .NET Framework | 4.7.2 |
-| SQL Server | 2017 (edición Express es suficiente) |
+- **Filtros con LINQ diferido.** Cada filtro con valor añade un `Where` a la consulta. Como LINQ sobre Entity Framework no se ejecuta hasta el `ToList()`, se genera **una única consulta SQL** con todos los filtros en el `WHERE`, parametrizada y proyectada a un DTO con solo las columnas que se muestran.
+- **Transacción explícita en el alta.** El libro y su lectura se guardan en dos pasos (la lectura necesita el id generado del libro), así que se agrupan con `BeginTransaction()`: o se guardan los dos, o ninguno. El borrado no la necesita, porque usa un único `SaveChanges()`, que ya es atómico.
+- **Edición con `Find`.** Las entidades llegan al formulario desde un contexto ya cerrado. Al guardar se recargan con `Find`, se copian solo los campos editables y Entity Framework genera el `UPDATE` únicamente de las columnas modificadas.
+- **Un `DbContext` por operación**, con `using`: contextos cortos, sin datos obsoletos en memoria.
+- **Autenticación integrada de Windows.** La cadena de conexión no contiene usuario ni contraseña.
 
-### Instalar SQL Server Express (gratuito)
-👉 https://www.microsoft.com/es-es/sql-server/sql-server-downloads
+## 🔍 Limitaciones conocidas
 
----
+Las identifiqué al revisar el proyecto y son el punto de partida de la versión web:
 
-## 🚀 Instalación y puesta en marcha
-
-### 1. Clonar el repositorio
-
-```bash
-git clone https://github.com/TU_USUARIO/gestion-biblioteca.git
-cd gestion-biblioteca
-```
-
-### 2. Restaurar paquetes NuGet
-
-Abre la solución en **Visual Studio 2022** y haz clic derecho sobre la solución → *Restaurar paquetes NuGet*.
-
-O desde la terminal del Paquete de NuGet:
-```
-nuget restore GestionBiblioteca.sln
-```
-
-### 3. Configurar la cadena de conexión
-
-Edita `GestionBiblioteca/App.config` y sustituye `NOMBRE_INSTANCIA` por el nombre real de tu instancia de SQL Server:
-
-```xml
-<add name="Modelo"
-     connectionString="data source=NOMBRE_INSTANCIA;
-                       initial catalog=Biblioteca;
-                       integrated security=True;
-                       MultipleActiveResultSets=True;
-                       App=EntityFramework"
-     providerName="System.Data.SqlClient" />
-```
-
-> **Nota:** Si instalaste SQL Server Express con los ajustes por defecto, el nombre suele ser `.\SQLEXPRESS` o `NOMBRE_DE_TU_PC\SQLEXPRESS`.
-
-### 4. Compilar y ejecutar
-
-Pulsa `F5` en Visual Studio o compila con:
-
-```bash
-msbuild GestionBiblioteca.sln /p:Configuration=Release
-```
-
-Al arrancar por primera vez, **Entity Framework crea automáticamente** la base de datos `Biblioteca` con todas sus tablas. No es necesario ejecutar ningún script SQL.
-
----
-
-## 📖 Uso rápido
-
-1. Al abrir la app aparece la **pantalla de inicio** con dos opciones: ver la biblioteca o añadir un libro directamente.
-2. Desde el **listado** puedes filtrar por autor, editorial, género o estado y ver el comentario de cada libro en el panel lateral.
-3. Usa los botones **Insertar / Modificar / Borrar** para gestionar tu colección.
-4. El **formulario de libro** valida todos los campos antes de guardar: ningún campo obligatorio puede estar vacío y la fecha de publicación no puede ser futura.
-
----
-
-## 🧰 Tecnologías utilizadas
-
-| Tecnología | Versión | Uso |
-|---|---|---|
-| C# / .NET Framework | 4.7.2 | Lenguaje y plataforma base |
-| Windows Forms | incluida en .NET | Interfaz gráfica |
-| Entity Framework | 6.5.1 | ORM Code-First |
-| SQL Server Express | 2017+ | Base de datos local |
-| Visual Studio | 2022 Community | IDE de desarrollo |
-
----
-
-## 📁 Estructura del repositorio
-
-```
-gestion-biblioteca/
-├── GestionBiblioteca.sln
-├── GestionBiblioteca/         # Proyecto principal
-│   ├── App.config             # Cadena de conexión (ajustar antes de ejecutar)
-│   ├── packages.config        # Dependencias NuGet
-│   ├── Modelo.cs
-│   ├── Modelos/
-│   ├── Controladores/
-│   ├── Vistas/
-│   └── Properties/
-└── Documentacion/             # Memoria del proyecto
-```
-
----
-
-## 📋 Historial de cambios
-
-### v1.1.0 — Revisión y limpieza de código
-*Correcciones aplicadas antes de la publicación en GitHub*
-
-**Errores críticos corregidos**
-- `MainForm.cs` — Eliminado bloque de comentarios de cabecera perteneciente a un proyecto anterior
-- `BookListForm.cs` — El bloque `catch` vacío en `CargarDatosEnDataGridView()` ahora muestra un `MessageBox` con el error al usuario en lugar de silenciarlo
-- `BookForm.cs` + `Modelo.cs` — Las claves de excepción internas (`ErrorTitulo`, `ErrorAutorVacio`, etc.) se traducen a mensajes legibles en español mediante el método `ObtenerMensajeErrorValidacion()` antes de mostrarse al usuario
-
-**Refactorización**
-- `BookListForm.cs` — `BookListController` pasa de instanciarse dentro de cada evento a ser un campo `private readonly`, eliminando objetos innecesarios en cada llamada
-- `BookForm.cs` — Eliminado el método `limpiarPantalla()` que estaba declarado pero nunca se llamaba
-
-**Limpieza de código**
-- `Program.cs` — Eliminados cuatro `using` innecesarios; `[STAThread]` se escribe explícito como `[System.STAThread]`
-- `MainForm.cs` — Eliminado `using GestionBiblioteca.Controladores` no utilizado
-- `Modelo.cs` — Eliminado el `$` de interpolación innecesario en los cinco `throw new Exception(...)` de `LibroDTO`
-- `BookForm.cs` y `BookListForm.cs` — Eliminados todos los bloques de código comentado que ya no se usaban
-- `LecturaDAO.cs` — Marcada como `// Reservado para uso futuro` al no estar referenciada desde ningún otro fichero
-
-**Configuración del repositorio**
-- Añadido `.gitignore` para excluir `bin/`, `obj/`, `.vs/`, `.vscode/`, `packages/`, `Documentacion/` y archivos temporales de Visual Studio
+- **La validación vive en los setters de las entidades** y lanza excepciones que el formulario traduce. Lo correcto sería validar en el controlador y devolver la lista de errores.
+- **Una lectura por libro.** El modelo admite varias (relación 1─N), pero la interfaz gestiona solo una. La solución es una vista maestro-detalle con el historial de lecturas.
+- **Las entidades se llaman `LibroDTO` y `LecturasDTO`**, aunque son entidades de Entity Framework, no DTOs.
+- **Sin tests automáticos.** Las pruebas se hicieron de forma manual, de principio a fin.
+- **Sin migraciones.** Un cambio en el modelo obliga a recrear la base de datos.
 
 ---
 
 ## 📄 Licencia
 
-Proyecto académico desarrollado para el módulo **Proyecto DAM** del Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Multiplataforma.
-
----
-
-*Autor: [Tu nombre] · IES [Nombre del centro] · Curso 2024-2025*
+[MIT](LICENSE) © 2026 David Redondo Serrano
